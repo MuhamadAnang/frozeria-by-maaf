@@ -1,151 +1,144 @@
-# DVRP Simulation Application
+# Frozeria Inventory Dashboard
 
-The DVRP Simulation Application is a modern web-based platform designed to
-simulate and optimize dynamic vehicle routing problems in real-time. This
-application helps you visualize route planning, analyze performance metrics,
-and explore routing optimization strategies with an intuitive user interface.
+Frozeria is a Next.js dashboard application for managing frozen food inventory,
+cold storage monitoring, and stock alerts. Aimed at admin users, the project
+helps track items, categories, low-stock alerts, and product expiration data.
 
 ## Tech Stack
 
-This project uses modern, production-ready technologies:
-
 - **Next.js 16** with App Router
-- **React 19** for building interactive user interfaces
-- **TypeScript** for type-safe code
-- **TailwindCSS 4** for responsive styling
-- **shadcn/ui** for reusable UI components
-- **TanStack Query** for server state management
+- **React 19**
+- **TypeScript**
+- **TailwindCSS 4**
+- **shadcn/ui**
+- **Clerk** for authentication
+- **Drizzle ORM** with PostgreSQL
+- **TanStack Query** for client-side data fetching
 - **Zod** for schema validation
-- **Jest** for unit testing
+- **Jest** for testing
+
+## Features
+
+- Dashboard with stock statistics, low-stock alerts, and category summaries
+- Frozen food item management with create, update, detail, and delete flows
+- Category management with listing, filtering, and ownership tracking
+- Image upload support for item photos
+- Clerk-based admin authentication and protected routes
+- Realtime inventory and cold storage monitoring experience
+- Pagination, search, sorting, and filters for item/category listings
 
 ## Prerequisites
 
-Before you get started, ensure you have the following installed:
-
-- **Node.js 22**: Use [NVM](https://github.com/nvm-sh/nvm) to manage Node.js
-  versions across your projects.
-- **pnpm**: This project uses pnpm for package management, which is enabled
-  via corepack.
-- **Docker** (optional): For containerized deployment.
+- **Node.js 22** or later
+- **pnpm**
+- **PostgreSQL** database
+- **Clerk account** for authentication keys
 
 ## Getting Started
 
-Follow these steps to set up the development environment and run the
-application locally.
-
-### Step 1: Install dependencies
-
-Use pnpm to install all project dependencies:
+1. Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-### Step 2: Set up environment variables
+2. Create a `.env.local` file in the project root with required environment
+   variables:
 
-Create a `.env.local` file in the project root and configure the required
-environment variables. Refer to `.env.example` for the list of required
-variables.
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+NODE_ENV=development
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+CLERK_JWT_KEY=your_clerk_jwt_key
+NEXT_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+NEXT_PUBLIC_NODE_TZ=Asia/Jakarta
+TZ=Asia/Jakarta
+```
 
-### Step 3: Start the development server
-
-Run the development server:
+3. Run the development server:
 
 ```bash
 pnpm dev
 ```
 
-The application opens at `http://localhost:3000`. The page automatically
-reloads as you make code changes.
+4. Open `http://localhost:3000` in your browser.
 
 ## Project Structure
 
-This project follows the Next.js App Router convention. The folder structure
-organizes code by feature and function, making it easy to locate and maintain
-specific functionality.
-
 ```
 .
-├── app
-│   ├── (authenticated)      # Authenticated user routes
-│   ├── (public)             # Public pages
-│   ├── api                  # API routes
-│   ├── _components          # Shared components
-│   │   └── ui               # UI component library
+├── app                      # Next.js App Router pages and layouts
+│   ├── (authenticated)      # Protected admin routes
+│   ├── (public)             # Public pages and landing UI
+│   ├── api                  # API route handlers
+│   ├── _components          # Shared page components
 │   └── _hooks               # Custom React hooks
-├── common                   # Shared constants and configuration
-├── drizzle                  # Database schema and migrations
-├── lib                      # Utility functions and helpers
-├── middleware               # Express middleware
-├── public                   # Static assets
-├── server                   # Server-side logic
-├── services                 # External service integrations
-├── tests                    # Test files and test utilities
-└── types                    # TypeScript global type definitions
+├── common                   # Shared config, constants, and permissions
+├── drizzle                  # Database schema and migration config
+├── lib                      # Helpers for requests, validation, pagination
+├── middleware               # Request and auth middleware
+├── public                   # Static assets, fonts, and images
+├── server                   # Controllers, services, and repositories
+├── tests                    # Unit and integration tests
+└── types                    # Global TypeScript type definitions
 ```
 
-### Folder Descriptions
+## Environment Variables
 
-- **`app/`**: Main folder for Next.js App Router. Contains all pages,
-  layouts, and route handlers.
-- **`_components/`**: Reusable UI components built with shadcn/ui.
-- **`_hooks/`**: Custom React hooks for common functionality.
-- **`common/`**: Shared constants, configuration, and utility functions
-  used across the application.
-- **`drizzle/`**: Database schema definitions and migration files using
-  Drizzle ORM.
-- **`lib/`**: Library functions for common operations such as API calls,
-  pagination, and query building.
-- **`middleware/`**: Authentication and request middleware.
-- **`public/`**: Static assets such as fonts and images.
-- **`server/`**: Server-side controllers, repositories, and services.
-- **`services/`**: Integrations with external services such as
-  authentication providers.
-- **`tests/`**: Unit and integration test files.
-- **`types/`**: Global TypeScript type definitions and database types.
+Required variables are validated in `common/config/environtment.ts`:
 
-## Key Features
+- `DATABASE_URL`
+- `NODE_ENV`
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- `CLERK_SECRET_KEY`
+- `CLERK_JWT_KEY`
+- `NEXT_BASE_URL`
+- `NEXT_PUBLIC_API_URL`
+- `NEXT_PUBLIC_NODE_TZ`
+- `TZ`
 
-This application provides the following features:
+## Database
 
-- **Real-time simulation**: Simulate and visualize vehicle routing in real-time
-  with dynamic updates.
-- **Visual route mapping**: Interactive maps display routes, stops, and vehicle
-  positions.
-- **Performance analytics**: Analyze routing efficiency with metrics such as
-  distance traveled and time spent.
-- **Responsive design**: Works seamlessly across desktop and mobile devices
-  using TailwindCSS.
-- **Type-safe codebase**: Built with TypeScript and Zod for compile-time type
-  safety and runtime validation.
+- Uses **Drizzle ORM** with PostgreSQL
+- Schema definitions live in `drizzle/schema.ts`
+- Migrations are stored under `drizzle/migrations`
 
-## Available Scripts
+## Scripts
 
-The following scripts are available through pnpm:
+- `pnpm dev`: Start development server
+- `pnpm build`: Build for production
+- `pnpm start`: Run production build
+- `pnpm lint`: Run ESLint
+- `pnpm test`: Run Jest tests
+- `pnpm format`: Format code with Prettier
+- `pnpm drizzle:generate`: Generate Drizzle types and schema output
+- `pnpm drizzle:migrate`: Run database migrations
+- `pnpm drizzle:push`: Push schema to database
+- `pnpm drizzle:studio`: Open Drizzle Studio
 
-- `pnpm dev`: Start the development server at `http://localhost:3000`.
-- `pnpm build`: Build the application for production.
-- `pnpm start`: Start the production server.
-- `pnpm lint`: Run ESLint to check code quality.
-- `pnpm test`: Run Jest tests.
-- `pnpm format`: Format code using Prettier.
+## Useful Pages
 
-Run any script with `pnpm <script-name>`.
+- `/`: Landing page for Frozeria admin portal
+- `/sign-in`: Clerk sign-in page
+- `/dashboard`: Admin dashboard overview
+- `/items`: Frozen food item listing and management
+- `/categories`: Category management
+- `/help`: In-app help and usage guides
+
+## Notes
+
+- Authentication is powered by Clerk and configured in `app/layout.tsx`
+- API routes use centralized controllers and services under `server/`
+- Item and category input validation are defined using Zod schemas
 
 ## Resources
 
-For more information about the technologies used in this project, visit the
-official documentation:
-
-- [Next.js documentation](https://nextjs.org/docs): Learn about Next.js
-  features, App Router, and best practices.
-- [React documentation](https://react.dev): Understand React hooks, components,
-  and patterns.
-- [TailwindCSS documentation](https://tailwindcss.com/docs): Explore utility
-  classes and styling techniques.
-- [shadcn/ui documentation](https://ui.shadcn.com): Browse reusable UI
-  components and implementation guides.
-- [TanStack Query documentation](https://tanstack.com/query/latest): Manage
-  server state and data synchronization.
-- [Zod documentation](https://zod.dev): Learn about schema validation and type
-  inference.
+- [Next.js](https://nextjs.org/docs)
+- [React](https://react.dev)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [Clerk](https://clerk.com/docs)
+- [Drizzle ORM](https://orm.drizzle.team/)
+- [TanStack Query](https://tanstack.com/query/latest)
+- [Zod](https://zod.dev)

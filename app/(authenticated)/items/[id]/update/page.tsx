@@ -65,6 +65,7 @@ export default function UpdateItemPage() {
             name: data.data.name,
             categoryId: data.data.categoryId,
             stockQuantity: data.data.stockQuantity,
+            satuan: data.data.satuan,
             stockMinimum: data.data.stockMinimum,
             hargaBeli: data.data.hargaBeli,
             hargaJual: data.data.hargaJual,

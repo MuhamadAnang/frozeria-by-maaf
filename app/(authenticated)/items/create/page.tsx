@@ -31,6 +31,7 @@ export default function CreateItemPage() {
       name: "",
       categoryId: 0,
       stockQuantity: 0,
+      satuan: "unit",
       stockMinimum: 0,
       hargaBeli: 0,
       hargaJual: 0,
