@@ -5,36 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1776483690177,
-      "tag": "0000_omniscient_falcon",
+      "when": 1778072383881,
+      "tag": "0000_unusual_whiplash",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1776953577303,
-      "tag": "0001_messy_the_spike",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1777275303193,
-      "tag": "0002_pink_ben_urich",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1777275372365,
-      "tag": "0003_eager_swarm",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1777276217836,
-      "tag": "0004_motionless_korvac",
+      "when": 1778103172235,
+      "tag": "0001_closed_the_order",
       "breakpoints": true
     }
   ]

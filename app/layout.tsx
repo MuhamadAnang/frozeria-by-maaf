@@ -9,9 +9,9 @@ import { ClerkProvider } from "@clerk/nextjs";
 ensureEnvValidated();
 
 export const metadata: Metadata = {
-  title: "Bookflow",
+  title: "frozerify",
   description:
-    "Bookflow is a web application that allows users to create, simulate, and analyze various routing algorithms in a visual and interactive way.",
+    "frozerify is a web application that allows users to create, simulate, and analyze various routing algorithms in a visual and interactive way.",
 };
 
 export default function RootLayout({

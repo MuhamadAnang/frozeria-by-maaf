@@ -11,7 +11,7 @@ export default function SignInForm() {
         <Card className="w-96">
             <CardHeader className="justify-center items-center flex flex-col text-center">
                 <Logo />
-                <Title level={5}>Sign in to Bookflow</Title>
+                <Title level={5}>Sign in to frozerify</Title>
                 <Paragraph>Welcome back! Please enter your credentials to continue.</Paragraph>
             </CardHeader>
             <CardContent className=" flex justify-center items-center">

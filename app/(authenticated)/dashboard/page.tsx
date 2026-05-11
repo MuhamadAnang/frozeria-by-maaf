@@ -3,109 +3,90 @@
 import Page from "@/app/_components/page";
 import { useGetDashboardStats } from "./__hooks/use-get-dashboard-stats.query";
 import { StatsCard } from "./__components/stats-card";
-import { StockAlertList } from "./__components/stock-alert-list";
-import { RecentOrders } from "./__components/recent-orders";
-import { TopCustomers } from "./__components/top-customers";
-import { PriorityPreview } from "./__components/priority-preview";
+import { LowStockAlert } from "./__components/low-stock-alert";
+import { ItemsTable } from "./__components/items-table";
+import { CategoryStockSummary } from "./__components/category-stock-summary";
 import { useBreadcrumb } from "@/app/_contexts/breadcrumb.context";
 import { useEffect } from "react";
 import {
   Package,
   Warehouse,
   AlertTriangle,
-  Users,
-  Building2,
-  Clock,
-  DollarSign,
-  Truck,
+  Archive,
+  Boxes,
+  Wallet,
 } from "lucide-react";
 
 export default function DashboardPage() {
   const { setBreadcrumbs } = useBreadcrumb();
-  const { data, isLoading, refetch } = useGetDashboardStats();
-  const dashboardData = data?.data;
+  const { data, isLoading } = useGetDashboardStats();
+  const dashboardData = data;
 
   useEffect(() => {
     setBreadcrumbs([{ label: "Dashboard" }]);
   }, [setBreadcrumbs]);
-
   const stats = dashboardData?.stats;
 
   return (
     <Page
       title="Dashboard"
-      description="Selamat datang di Warehouse Management System. Pantau aktivitas gudang dan distribusi buku di sini."
+      description="Selamat datang di frozerify Inventory System. Pantau stok makanan beku dan kelola inventory di sini."
+      isLoading={isLoading}
     >
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-6">
         <StatsCard
-          title="Total Buku"
-          value={stats?.totalBooks || 0}
+          title="Total Barang"
+          value={stats?.totalItems || 0}
           icon={Package}
-          description="Judul buku aktif"
+          description="Item aktif"
           iconColor="text-blue-500"
-        />
-        <StatsCard
-          title="Total Stok"
-          value={stats?.totalStock || 0}
-          icon={Warehouse}
-          description="Total eksemplar di gudang"
-          iconColor="text-green-500"
         />
         <StatsCard
           title="Stok Menipis"
           value={stats?.lowStockItems || 0}
           icon={AlertTriangle}
-          description="Buku dengan stok < 50"
-          iconColor="text-orange-500"
-        />
-        <StatsCard
-          title="Total Customer"
-          value={stats?.totalCustomers || 0}
-          icon={Users}
-          description="Customer aktif"
-          iconColor="text-purple-500"
-        />
-        <StatsCard
-          title="Total Supplier"
-          value={stats?.totalSuppliers || 0}
-          icon={Building2}
-          description="Penerbit aktif"
-          iconColor="text-cyan-500"
-        />
-        <StatsCard
-          title="Order Pending"
-          value={stats?.pendingOrders || 0}
-          icon={Clock}
-          description="Order confirmed/parsial"
+          description="Stok <= minimum"
           iconColor="text-yellow-500"
         />
         <StatsCard
-          title="Nilai Pending"
-          value={stats?.pendingOrdersValue || 0}
-          icon={DollarSign}
-          description="Total nilai order pending"
-          iconColor="text-emerald-500"
+          title="Stok Habis"
+          value={stats?.outOfStockItems || 0}
+          icon={Archive}
+          description="Stok = 0"
+          iconColor="text-red-500"
         />
         <StatsCard
-          title="Pengiriman Bulan Ini"
-          value={stats?.shippedOrdersThisMonth || 0}
-          icon={Truck}
-          description="Jumlah pengiriman"
-          iconColor="text-indigo-500"
+          title="Kategori"
+          value={stats?.totalCategories || 0}
+          icon={Warehouse}
+          description="Kategori aktif"
+          iconColor="text-green-500"
+        />
+        <StatsCard
+          title="Total Stok"
+          value={stats?.totalStock || 0}
+          icon={Boxes}
+          description="Semua unit"
+          iconColor="text-cyan-600"
+        />
+        <StatsCard
+          title="Nilai Inventory"
+          value={stats?.inventoryValue || 0}
+          icon={Wallet}
+          description="Berdasarkan harga jual"
+          iconColor="text-emerald-600"
         />
       </div>
 
-      {/* Two Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <StockAlertList items={dashboardData?.lowStock || []} isLoading={isLoading} />
-        <PriorityPreview priorities={dashboardData?.priorityPreview || []} isLoading={isLoading} />
+      <div className="mb-6 grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
+        <LowStockAlert items={dashboardData?.lowStock || []} />
+        <CategoryStockSummary items={dashboardData?.categoryStock || []} />
       </div>
 
-      {/* Recent Orders & Top Customers */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RecentOrders orders={dashboardData?.recentOrders || []} isLoading={isLoading} />
-        <TopCustomers customers={dashboardData?.topCustomers || []} isLoading={isLoading} />
+      {/* Items Table */}
+      <div className="mb-6">
+        <ItemsTable />
       </div>
     </Page>
   );

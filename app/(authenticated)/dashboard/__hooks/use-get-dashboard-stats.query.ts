@@ -1,67 +1,52 @@
 import useAuthenticatedClient from "@/app/_hooks/use-authenticated-client";
+import { TApiSuccessResponseWithData } from "@/types/response";
 import { useQuery } from "@tanstack/react-query";
 
 export interface DashboardStats {
-  totalBooks: number;
+  totalItems: number;
   totalStock: number;
   lowStockItems: number;
-  totalCustomers: number;
-  totalSuppliers: number;
-  pendingOrders: number;
-  pendingOrdersValue: number;
-  shippedOrdersThisMonth: number;
-  totalReturnsThisMonth: number;
+  outOfStockItems: number;
+  totalCategories: number;
+  inventoryValue: number;
 }
 
 export interface LowStockItem {
   id: number;
-  code: string;
   name: string;
-  currentStock: number;
-  subjectName: string | null;
+  stockQuantity: number;
+  stockMinimum: number;
+  satuan: string;
+  categoryName: string | null;
 }
 
-export interface RecentOrder {
+export interface CategoryStockSummary {
   id: number;
-  customerName: string;
-  orderDate: string;
-  deadline: string | null;
-  status: string;
+  name: string;
   totalItems: number;
-  totalQuantity: number;
-}
-
-export interface TopCustomer {
-  customerId: number;
-  customerName: string;
-  totalOrders: number;
-  totalQuantity: number;
-}
-
-export interface PriorityPreviewItem {
-  id: number;
-  customerName: string;
-  score: number;
-  rank: number;
+  totalStock: number;
 }
 
 export interface DashboardData {
   stats: DashboardStats;
   lowStock: LowStockItem[];
-  recentOrders: RecentOrder[];
-  topCustomers: TopCustomer[];
-  priorityPreview: PriorityPreviewItem[];
+  categoryStock: CategoryStockSummary[];
 }
 
-export const useGetDashboardStats = () => {
-  const api = useAuthenticatedClient();
+const useGetDashboardStats = () => {
+  const client = useAuthenticatedClient();
 
   return useQuery({
     queryKey: ["dashboard-stats"],
-    queryFn: async (): Promise<{ data: DashboardData }> => {
-      return await api.get("/dashboard");
+    queryFn: async () => {
+      const response =
+        await client.get<TApiSuccessResponseWithData<DashboardData>>(
+          "/dashboard",
+        );
+
+      return response.data.data;
     },
-    staleTime: 2 * 60 * 1000, // 2 menit
-    refetchInterval: 5 * 60 * 1000, // Refresh setiap 5 menit
   });
 };
+
+export { useGetDashboardStats };

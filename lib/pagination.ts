@@ -6,23 +6,23 @@ interface IPaginationParams {
   totalItems: number;
 }
 
-const convertPaginationMeta = ({
-  currentPage,
-  pageSize,
-  totalItems,
-}: IPaginationParams): TPaginationMeta => ({
-  page: currentPage,
-  pageSize,
-  total: totalItems,
-  totalPage: Math.ceil(totalItems / pageSize),
+const convertPaginationMeta = (params: IPaginationParams): TPaginationMeta => ({
+  page: params.currentPage,
+  pageSize: params.pageSize,
+  total: params.totalItems,
+  totalPage: Math.ceil(params.totalItems / params.pageSize),
 });
 
 export const paginationResponseMapper = <T>(
   data: T[],
-  meta: IPaginationParams,
+  meta: Partial<IPaginationParams> = { currentPage: 1, pageSize: 10, totalItems: 0 }
 ): TPaginationResponse<T> => ({
   data,
-  meta: Object.freeze(convertPaginationMeta(meta)),
+  meta: Object.freeze(convertPaginationMeta({
+    currentPage: meta.currentPage ?? 1,
+    pageSize: meta.pageSize ?? 10,
+    totalItems: meta.totalItems ?? 0,
+  })),
 });
 
 export const calculateOffset = (page: number, pageSize: number): number => {

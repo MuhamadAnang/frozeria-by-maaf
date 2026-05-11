@@ -3,8 +3,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/app/_components/ui/table";
 import { Trophy, TrendingUp } from "lucide-react";
-import { TopCustomer } from "../__hooks/use-get-dashboard-stats.query";
 import Link from "next/link";
+
+interface TopCustomer {
+  customerId: number;
+  customerName: string;
+  totalOrders: number;
+  totalQuantity: number;
+}
 
 interface TopCustomersProps {
   customers: TopCustomer[];

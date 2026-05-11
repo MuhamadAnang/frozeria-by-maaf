@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/app/_components/ui/button";
-import { SignOutButton } from "@clerk/nextjs";
+// import { SignOutButton } from "@clerk/nextjs";
 
 const Header = () => {
 
@@ -9,7 +9,7 @@ const Header = () => {
     <header className="w-full h-16 bg-sidebar border-b flex justify-between items-center p-4">
       <div className="flex gap-4 items-center w-full justify-end">
         <Button variant={"destructive"} asChild>
-          <SignOutButton />
+          {/* <SignOutButton /> */}
         </Button>
       </div>
     </header>

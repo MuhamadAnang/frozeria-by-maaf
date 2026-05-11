@@ -1,4 +1,5 @@
 import { ValidationException } from "@/common/exception/validation.exception";
+import { NextRequest } from "next/server";
 import { z, ZodSchema, ZodTypeAny } from "zod";
 
 interface IValidationResult<T> {
@@ -61,3 +62,19 @@ export const createSortSchema = <T extends string>(allowedKeys: T[]) => {
       return parsedSorts.length > 0 ? parsedSorts : undefined;
     });
 };
+
+/**
+ * Validate request body using Zod schema
+ * @param req - NextRequest object
+ * @param schema - Zod schema for validation
+ * @returns Validated data
+ */
+export async function validateRequest<T>(req: NextRequest, schema: ZodSchema<T>): Promise<T> {
+  try {
+    const body = await req.json();
+    const result = validateSchema<T>(schema, body);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+}

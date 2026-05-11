@@ -106,7 +106,7 @@ export default function Page() {
             </h1>
 
             <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto lg:mx-0">
-              BookFlow adalah platform manajemen gudang terintegrasi dengan sistem pendukung keputusan
+              frozerify adalah platform manajemen gudang terintegrasi dengan sistem pendukung keputusan
               berbasis MCDM-TOPSIS untuk menentukan prioritas distribusi buku secara objektif dan terukur.
             </p>
 
@@ -162,7 +162,7 @@ export default function Page() {
               Lebih dari Sekadar Warehouse Management
             </h2>
             <p className="text-slate-600 max-w-2xl mx-auto">
-              BookFlow menggabungkan manajemen gudang dengan sistem pendukung keputusan
+              frozerify menggabungkan manajemen gudang dengan sistem pendukung keputusan
               untuk prioritas pengiriman yang lebih cerdas
             </p>
           </div>
@@ -189,7 +189,7 @@ export default function Page() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="text-center max-w-2xl mx-auto mb-12">
               <h2 className="text-3xl md:text-4xl font-bold">
-                Fitur Unggulan BookFlow
+                Fitur Unggulan frozerify
               </h2>
               <p className="text-gray-600 mt-4">
                 Solusi lengkap untuk mengelola gudang dan distribusi buku Anda
@@ -217,7 +217,7 @@ export default function Page() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="text-center max-w-2xl mx-auto mb-12">
               <h2 className="text-3xl md:text-4xl font-bold">
-                Bagaimana BookFlow Bekerja?
+                Bagaimana frozerify Bekerja?
               </h2>
               <p className="text-gray-600 mt-4">
                 Proses sederhana untuk meningkatkan efisiensi distribusi buku
@@ -288,7 +288,7 @@ export default function Page() {
                     <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                   </div>
                   <p className="text-lg italic">
-                    BookFlow membantu kami mengelola stok lebih akurat dan menentukan
+                    frozerify membantu kami mengelola stok lebih akurat dan menentukan
                     prioritas pengiriman dengan lebih objektif. Operasional gudang jadi lebih efisien!
                   </p>
                   <div className="mt-4 flex items-center gap-3">
@@ -297,7 +297,7 @@ export default function Page() {
                     </div>
                     <div>
                       <p className="font-semibold">Mitra Distributor Buku</p>
-                      <p className="text-sm text-green-200">Pengguna BookFlow</p>
+                      <p className="text-sm text-green-200">Pengguna frozerify</p>
                     </div>
                   </div>
                 </div>
@@ -313,7 +313,7 @@ export default function Page() {
               Siap Mengelola Distribusi Buku Lebih Baik?
             </h2>
             <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-              Bergabunglah dengan BookFlow dan rasakan kemudahan mengelola gudang
+              Bergabunglah dengan frozerify dan rasakan kemudahan mengelola gudang
               dengan sistem pendukung keputusan yang cerdas.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
@@ -359,13 +359,13 @@ export default function Page() {
               <div>
                 <h4 className="text-white font-semibold mb-4">Kontak</h4>
                 <ul className="space-y-2 text-sm">
-                  <li>Email: support@bookflow.com</li>
-                  <li>Web: www.bookflow.com</li>
+                  <li>Email: support@frozerify.com</li>
+                  <li>Web: www.frozerify.com</li>
                 </ul>
               </div>
             </div>
             <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-              &copy; {new Date().getFullYear()} BookFlow. All rights reserved.
+              &copy; {new Date().getFullYear()} frozerify. All rights reserved.
             </div>
           </div>
         </footer>

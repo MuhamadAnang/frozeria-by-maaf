@@ -19,23 +19,23 @@ export type TMiddlewareResponse<T> =
   | IMiddlewareResponseWithData<T>
   | IMiddlewareResponseWithoutData;
 
-type TRequestCallback<T> = T extends undefined
-  ? (req: NextRequest) => Promise<NextResponse>
-  : (req: NextRequest, context: T) => Promise<NextResponse>;
+type TRequestCallback<TContext> = (req: NextRequest, context: TContext) => Promise<unknown>;
 
 type TMiddlewareFunction<T = unknown> = (req: NextRequest) => Promise<TMiddlewareResponse<T>>;
 
-interface IMiddlewareRequest<T = undefined> {
+interface IMiddlewareRequest<TContext = TAuthMiddlewareData> {
   request: NextRequest;
-  callback: TRequestCallback<T>;
+  callback: TRequestCallback<TContext>;
   middleware?: TMiddlewareFunction<unknown>[];
+  params?: unknown;
 }
 
-export const handleAuthenticatedRequest = async ({
+export const handleAuthenticatedRequest = async <TContext = TAuthMiddlewareData>({
   request,
   callback,
   middleware = [],
-}: IMiddlewareRequest<TAuthMiddlewareData>): Promise<NextResponse> => {
+  params,
+}: IMiddlewareRequest<TContext>): Promise<NextResponse> => {
   const authResult = await authMiddleware(request);
 
   if (!authResult.pass) {
@@ -53,5 +53,12 @@ export const handleAuthenticatedRequest = async ({
     }
   }
 
-  return callback(request, authData);
+  const context = (params ? { params } : authData) as TContext;
+  const result = await callback(request, context);
+
+  if (result instanceof NextResponse) {
+    return result;
+  }
+
+  return NextResponse.json(result);
 };
