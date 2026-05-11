@@ -4,7 +4,7 @@ import Page from "@/app/_components/page";
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { useBreadcrumb } from "@/app/_contexts/breadcrumb.context";
 import { useEffect } from "react";
-import { HelpCircle, User, Mail, Phone } from "lucide-react";
+import { HelpCircle, User, Mail, Phone, GraduationCap, MapPin } from "lucide-react";
 
 export default function HelpPage() {
   const { setBreadcrumbs } = useBreadcrumb();
@@ -82,7 +82,7 @@ export default function HelpPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <User className="h-5 w-5" />
-              Informasi Pemilik
+              Informasi Developer
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -97,6 +97,14 @@ export default function HelpPage() {
             <div className="flex items-center gap-2">
               <Phone className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm">+62 852-5891-6440</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <GraduationCap className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm">2241720070 - TI 4D</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm">Lowokwaru, Kota Malang</span>
             </div>
           </CardContent>
         </Card>

@@ -15,6 +15,7 @@ import { TFrozenFoodItem } from "@/types/database";
 import { TSortOption } from "@/app/_components/data-table/sort";
 import { useDeleteItemMutation } from "./__hooks/use-delete-item.mutation";
 import { useGetItemsQuery } from "./__hooks/use-get-item.query";
+import { useGetCategoriesQuery } from "../categories/__hooks/use-get-category.query";
 
 export default function ItemsPage() {
   const { setBreadcrumbs } = useBreadcrumb();
@@ -29,7 +30,17 @@ export default function ItemsPage() {
     categoryId: filters.categoryId,
   });
 
+  const { data: categoriesData, isLoading: isCategoriesLoading } =
+    useGetCategoriesQuery({
+      page: 1,
+      pageSize: 200,
+    });
+
   const { mutateAsync, isPending } = useDeleteItemMutation();
+
+  const categoryNameById = new Map(
+    (categoriesData?.data || []).map((category) => [category.id, category.name])
+  );
 
   useEffect(() => {
     setBreadcrumbs([
@@ -45,17 +56,13 @@ export default function ItemsPage() {
       header: "Nama Barang",
     },
 
-    /**
-     * HARUSNYA category name
-     * bukan categoryId
-     */
     {
       accessorKey: "categoryId",
       header: "Kategori",
       cell: ({ row }) => {
         return (
           <Badge>
-            ID: {row.original.categoryId}
+            {categoryNameById.get(row.original.categoryId) || "-"}
           </Badge>
         );
       },
@@ -161,7 +168,7 @@ export default function ItemsPage() {
         source={data}
         handleChange={handleChange}
         search={search}
-        isLoading={isLoading}
+        isLoading={isLoading || isCategoriesLoading}
         pagination={pagination}
         sortOptions={sortOptions}
         isSearchable
