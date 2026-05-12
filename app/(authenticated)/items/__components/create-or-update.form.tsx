@@ -67,14 +67,18 @@ export const CreateOrUpdateItemForm = ({
 
             return (
               <Field>
-                <FieldLabel>Kategori *</FieldLabel>
+                <FieldLabel>Kategori</FieldLabel>
                 <select
                   className="w-full border rounded-md px-3 py-2 bg-background"
                   value={field.state.value ?? ""}
-                  onChange={(e) => field.handleChange(Number(e.target.value))}
+                  onChange={(e) =>
+                    field.handleChange(
+                      e.target.value ? Number(e.target.value) : null
+                    )
+                  }
                   onBlur={field.handleBlur}
                 >
-                  <option value="">Pilih kategori</option>
+                  <option value="">Tidak berkategori</option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.id}>
                       {cat.name}

@@ -15,6 +15,13 @@
       "when": 1778103172235,
       "tag": "0001_closed_the_order",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1778551860000,
+      "tag": "0002_category_delete_set_null",
+      "breakpoints": true
     }
   ]
 }

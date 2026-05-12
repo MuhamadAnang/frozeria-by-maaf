@@ -29,7 +29,7 @@ export default function CreateItemPage() {
   const form = useItemForm({
     defaultValues: {
       name: "",
-      categoryId: 0,
+      categoryId: null,
       stockQuantity: 0,
       satuan: "unit",
       stockMinimum: 0,

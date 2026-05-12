@@ -46,11 +46,9 @@ export const frozenFoodItemTable = pgTable(
   "frozen_food_items",
   {
     id: serial("id").primaryKey(),
-    categoryId: integer("category_id")
-      .notNull()
-      .references(() => frozenFoodCategoryTable.id, {
-        onDelete: "restrict", // Prevent deletion of category with items
-      }),
+    categoryId: integer("category_id").references(() => frozenFoodCategoryTable.id, {
+      onDelete: "set null",
+    }),
     name: varchar("name", { length: 255 }).notNull(),
     description: text("description"),
     stockQuantity: integer("stock_quantity").notNull().default(0),

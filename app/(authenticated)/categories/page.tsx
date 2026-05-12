@@ -9,10 +9,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Eye, Pencil, Plus, Trash } from "lucide-react";
 import Link from "next/link";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useBreadcrumb } from "@/app/_contexts/breadcrumb.context";
 import { useFilters } from "@/app/_hooks/use-filters";
+import { DeleteConfirmationDialog } from "@/app/_components/delete-confirmation-dialog";
 
 import { IndexCategoryQuerySchema } from "@/schemas/category.schema";
 
@@ -25,6 +26,8 @@ import { useDeleteCategoryMutation } from "./__hooks/use-delete-category.mutatio
 
 export default function CategoriesPage() {
   const { setBreadcrumbs } = useBreadcrumb();
+  const [categoryToDelete, setCategoryToDelete] =
+    useState<TFrozenFoodCategoryWithTotalItems | null>(null);
 
   const { handleChange, pagination, filters, search } =
     useFilters(IndexCategoryQuerySchema);
@@ -36,6 +39,13 @@ export default function CategoriesPage() {
   });
 
   const { mutateAsync, isPending } = useDeleteCategoryMutation();
+
+  const handleConfirmDelete = async () => {
+    if (!categoryToDelete) return;
+
+    await mutateAsync(categoryToDelete.id);
+    setCategoryToDelete(null);
+  };
 
   useEffect(() => {
     setBreadcrumbs([
@@ -97,10 +107,8 @@ export default function CategoriesPage() {
             <Button
               variant="outline"
               className="text-destructive"
-              isLoading={isPending}
-              onClick={async () => {
-                await mutateAsync(id);
-              }}
+              disabled={isPending}
+              onClick={() => setCategoryToDelete(category)}
             >
               <Trash />
             </Button>
@@ -150,6 +158,19 @@ export default function CategoriesPage() {
         isSearchable
         sortDefaultValue={filters.sort}
         placeholderSearch="Cari kategori..."
+      />
+
+      <DeleteConfirmationDialog
+        open={!!categoryToDelete}
+        title="Hapus kategori?"
+        description={`Apakah Anda yakin ingin menghapus kategori ${
+          categoryToDelete?.name || "ini"
+        }? Tindakan ini tidak dapat dibatalkan.`}
+        isDeleting={isPending}
+        onOpenChange={(open) => {
+          if (!open) setCategoryToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
       />
     </Page>
   );

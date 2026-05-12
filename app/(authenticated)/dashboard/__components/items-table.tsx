@@ -133,7 +133,9 @@ export const ItemsTable = () => {
                   <TableRow key={item.id}>
                     <TableCell className="font-medium">{item.name}</TableCell>
                     <TableCell>
-                      {categoryNameById.get(item.categoryId) || "-"}
+                      {item.categoryId
+                        ? categoryNameById.get(item.categoryId) || "-"
+                        : "-"}
                     </TableCell>
                     <TableCell className="text-right">
                       <span className={item.stockQuantity === 0 ? "text-red-600 font-medium" : item.stockQuantity <= item.stockMinimum ? "text-yellow-600" : ""}>

@@ -11,11 +11,11 @@ export const CreateOrUpdateItemSchema = z.object({
 
   categoryId: z
     .number({
-      required_error: "Kategori harus dipilih",
       invalid_type_error: "Kategori tidak valid",
     })
     .int()
-    .positive("Kategori tidak valid"),
+    .positive("Kategori tidak valid")
+    .nullable(),
 
   stockQuantity: z
     .number({

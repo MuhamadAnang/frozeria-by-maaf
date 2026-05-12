@@ -65,7 +65,7 @@ export default function ItemDetailPage() {
 
               <TableRow>
                 <TableCell className="font-medium">Kategori</TableCell>
-                <TableCell>{data?.data.categoryId}</TableCell>
+                <TableCell>{data?.data.categoryId ?? "-"}</TableCell>
               </TableRow>
 
               <TableRow>

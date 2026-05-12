@@ -7,9 +7,10 @@ import { Badge } from "@/app/_components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, Pencil, Plus, Trash } from "lucide-react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useBreadcrumb } from "@/app/_contexts/breadcrumb.context";
 import { useFilters } from "@/app/_hooks/use-filters";
+import { DeleteConfirmationDialog } from "@/app/_components/delete-confirmation-dialog";
 import { IndexItemQuerySchema } from "@/schemas/item.schema";
 import { TFrozenFoodItem } from "@/types/database";
 import { TSortOption } from "@/app/_components/data-table/sort";
@@ -19,6 +20,7 @@ import { useGetCategoriesQuery } from "../categories/__hooks/use-get-category.qu
 
 export default function ItemsPage() {
   const { setBreadcrumbs } = useBreadcrumb();
+  const [itemToDelete, setItemToDelete] = useState<TFrozenFoodItem | null>(null);
 
   const { handleChange, pagination, filters, search } =
     useFilters(IndexItemQuerySchema);
@@ -37,6 +39,13 @@ export default function ItemsPage() {
     });
 
   const { mutateAsync, isPending } = useDeleteItemMutation();
+
+  const handleConfirmDelete = async () => {
+    if (!itemToDelete) return;
+
+    await mutateAsync(itemToDelete.id);
+    setItemToDelete(null);
+  };
 
   const categoryNameById = new Map(
     (categoriesData?.data || []).map((category) => [category.id, category.name])
@@ -62,7 +71,9 @@ export default function ItemsPage() {
       cell: ({ row }) => {
         return (
           <Badge>
-            {categoryNameById.get(row.original.categoryId) || "-"}
+            {row.original.categoryId
+              ? categoryNameById.get(row.original.categoryId) || "-"
+              : "-"}
           </Badge>
         );
       },
@@ -106,10 +117,8 @@ export default function ItemsPage() {
             <Button
               variant="outline"
               className="text-destructive"
-              isLoading={isPending}
-              onClick={async () => {
-                await mutateAsync(id);
-              }}
+              disabled={isPending}
+              onClick={() => setItemToDelete(item)}
             >
               <Trash />
             </Button>
@@ -174,6 +183,19 @@ export default function ItemsPage() {
         isSearchable
         sortDefaultValue={filters.sort}
         placeholderSearch="Cari barang..."
+      />
+
+      <DeleteConfirmationDialog
+        open={!!itemToDelete}
+        title="Hapus barang?"
+        description={`Apakah Anda yakin ingin menghapus barang ${
+          itemToDelete?.name || "ini"
+        }? Tindakan ini tidak dapat dibatalkan.`}
+        isDeleting={isPending}
+        onOpenChange={(open) => {
+          if (!open) setItemToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
       />
     </Page>
   );
